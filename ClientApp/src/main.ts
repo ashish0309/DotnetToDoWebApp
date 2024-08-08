@@ -1,7 +1,14 @@
-import { bootstrapApplication } from '@angular/platform-browser';
 import { AppModule } from './app/app.module';
-import { TodosComponent } from './app/todos/todos.component';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+export function getBaseUrl() {
+  return document.getElementsByTagName('base')[0].href + "api/";
+}
+
+const providers = [
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+];
+
+platformBrowserDynamic(providers).bootstrapModule(AppModule)
   .catch(err => console.log(err));

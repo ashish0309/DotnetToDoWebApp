@@ -28,3 +28,10 @@
 /Users/brainnumber/ToDoApp/obj/Debug/net8.0/ToDoApp.pdb
 /Users/brainnumber/ToDoApp/obj/Debug/net8.0/ToDoApp.genruntimeconfig.cache
 /Users/brainnumber/ToDoApp/obj/Debug/net8.0/ref/ToDoApp.dll
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/angular.json
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/package-lock.json
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/package.json
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/tsconfig.app.json
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/tsconfig.json
+/Users/brainnumber/ToDoApp/bin/Debug/net8.0/ClientApp/tsconfig.spec.json
+/Users/brainnumber/ToDoApp/obj/Debug/net8.0/ToDoApp.sourcelink.json
