@@ -28,8 +28,6 @@ export class TodosComponent {
     });
   }
   
-
-
   private fetchTodos() {
     this.http.get<TodoItem[] | null>(this.baseUrl + 'todos').subscribe({
       next: (success_result) => {
@@ -49,6 +47,35 @@ export class TodosComponent {
       this.todos.push(toDoItem);
       this.addTodoForm?.reset();
     });
+  }
+
+  public editTodo(id: number): void {
+    console.warn('Deleting', id !== this.todoToEdit?.id ? 'correct' : 'wrong');
+    const editTodoFormValues = this.editTodoForm.value;
+    console.warn('edit todo ',editTodoFormValues);
+    const newTodoItem: TodoItem = { name: editTodoFormValues.editing_name!, isComplete: editTodoFormValues.isComplete!, id: id };
+    this.http.put(this.baseUrl + 'todos/' + id, newTodoItem).subscribe(updatedToDoItem => {
+      const index = this.todos.findIndex(todoItem => todoItem.id === id);
+      this.todos.splice(index, 1, newTodoItem);
+      this.todoToEdit = null;
+    });
+  }
+  
+  public updateTodoForEdit(todoItem: TodoItem): void {
+    console.warn('todo for editing', todoItem);
+    this.todoToEdit = {name: todoItem.name, id: todoItem.id, isComplete: todoItem.isComplete};
+  }
+
+  public deleteTodo(id: number): void {
+    console.warn('Deleting', id);
+    this.http.delete(this.baseUrl + 'todos/' + id).pipe(
+      response => {
+        console.log({ "res": response.forEach(value => { console.log({ 'vale': value }) }) });
+        let pastTodos = this.todos;
+        pastTodos = pastTodos.filter(todo => todo.id != id);
+        this.todos = pastTodos;
+        return response;
+      });
   }
 }
 

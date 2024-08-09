@@ -27,4 +27,48 @@ public class TodosController(TodoContext context) : Controller
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(Get), new { id = todoItem.Id }, todoItem);
     }
+
+
+     [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(long id)
+    {
+        Console.WriteLine("starting delete");
+        if (_context.TodoItems == null)
+        {
+            Console.WriteLine("could not find any todos");
+            return NotFound();
+        }
+        var todoItem = await _context.TodoItems.FindAsync(id);
+        if (todoItem == null)
+        {
+            Console.WriteLine("could not find specific todo");
+            return NotFound();
+        }
+        Console.WriteLine(todoItem);
+        _context.TodoItems.Remove(todoItem);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+    {
+        if (id != todoItem.Id)
+        {
+            return BadRequest();
+        }
+        try
+        {
+            _context.Entry(todoItem).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+       
+            throw;
+        }
+
+        return NoContent();
+    }
 }
