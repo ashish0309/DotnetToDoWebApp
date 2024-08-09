@@ -1,9 +1,15 @@
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
+using TodoApp.DBContexts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<TodoContext>(opt =>
+     opt.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection") ?? ""));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

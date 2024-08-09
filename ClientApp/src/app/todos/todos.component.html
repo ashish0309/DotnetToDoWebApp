@@ -1,4 +1,29 @@
 <div class="container">
-    <p>todos works! {{todo}}</p>
-</div>
+    <div class="mt-5">
+        <form [formGroup]="addTodoForm" (ngSubmit)="addToDo()">
+            <div class="mb-3">
+                <input class="form-control" id="name" type="text" formControlName="name"
+                    placeholder="Type your new to do">
+            </div>
+            <button class="btn btn-dark" type="submit">Add</button>
+        </form>
+    </div>
+    <div class="mt-5">
+        <p *ngIf="!todos?.length"><em>No todos created yet, please add some to see them below.</em></p>
+        <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="todos.length">
+            <thead>
+                <tr>
+                    <th>My To do`s:</th>
+                    <th>Is Complete</th>
+                </tr>
+            </thead>
 
+            <tbody class="table-group-divider">
+                <tr *ngFor="let todo of todos">
+                    <td>{{ todo.name }}</td>
+                    <td>{{ todo.isComplete ? '✅' : ''}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

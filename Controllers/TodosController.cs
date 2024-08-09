@@ -1,24 +1,30 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TodoApp.DBContexts;
+using TodoApp.Models;
 using ToDoApp.Models;
 
 namespace ToDoApp.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TodosController : Controller
+public class TodosController(TodoContext context) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly TodoContext _context = context;
 
-    public TodosController(ILogger<HomeController> logger)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<TodoItem>>> Get()
     {
-        _logger = logger;
+        return await _context.TodoItems.ToListAsync();
     }
 
-    // GET api/yourcontrollername
-    [HttpGet]
-    public ActionResult Get()
+    [HttpPost]
+    public async Task<ActionResult<TodoItem>> Post(TodoItem todoItem)
     {
-        return Ok(new { Message = "No todos yet, and this message is being sent by dotnet backend!" });
+        Console.WriteLine("Adding items");
+        _context.TodoItems.Add(todoItem);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(Get), new { id = todoItem.Id }, todoItem);
     }
 }
