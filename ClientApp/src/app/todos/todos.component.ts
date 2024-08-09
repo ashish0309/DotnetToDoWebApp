@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, Observer } from 'rxjs';
 
 @Component({
@@ -15,8 +16,7 @@ export class TodosComponent {
   public addTodoForm: FormGroup;
   public editTodoForm: FormGroup;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder) {
-    this.fetchTodos();
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder, private router: Router) {
     this.addTodoForm = this.formBuilder.group({
       name: '',
       isComplete: false,
@@ -26,6 +26,12 @@ export class TodosComponent {
       editing_name: this.todoToEdit?.name!,
       isComplete: this.todoToEdit?.isComplete ?? false,
     });
+    console.log('localStorage.getItem(',localStorage.getItem('user_email'));
+    if (localStorage.getItem('user_email') == null) {
+      router.navigate(['/sign-in-user']);
+      return;
+    }
+    this.fetchTodos();
   }
   
   private fetchTodos() {
@@ -84,3 +90,4 @@ interface TodoItem {
   isComplete: boolean,
   id: number
 }
+
