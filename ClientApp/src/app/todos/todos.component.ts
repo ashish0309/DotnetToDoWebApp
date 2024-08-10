@@ -40,6 +40,8 @@ export class TodosComponent {
         this.todos = success_result ?? [];
       }, error: (error) => {
         console.error("error message", error);
+        localStorage.clear();
+        this.router.navigate(['/sign-in-user']);
       }, complete: () => {
         console.log('completed api call');
       }

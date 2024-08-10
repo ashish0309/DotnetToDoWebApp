@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApp.DBContexts;
 using TodoApp.Models;
+using TodoApp.Utils;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,10 +17,8 @@ if (mysqlConnectionString == null)
 }
 builder.Services.AddDbContext<TodoContext>(opt =>
      opt.UseMySQL(mysqlConnectionString));
-builder.Services.AddDbContext<TodoUserDBContext>(opt =>
-opt.UseMySQL(mysqlConnectionString));
 builder.Services.AddIdentity<TodoUser, TodoRole>(options => { options.SignIn.RequireConfirmedAccount = false; options.SignIn.RequireConfirmedEmail = false; })
-    .AddEntityFrameworkStores<TodoUserDBContext>();
+    .AddEntityFrameworkStores<TodoContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -28,6 +27,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     options.SlidingExpiration = true;
 });
+builder.Services.AddTransient<IUserProvider, UserIdProvider>();
 
 var app = builder.Build();
 
