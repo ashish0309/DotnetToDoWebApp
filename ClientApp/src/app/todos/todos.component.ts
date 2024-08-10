@@ -26,14 +26,14 @@ export class TodosComponent {
       editing_name: this.todoToEdit?.name!,
       isComplete: this.todoToEdit?.isComplete ?? false,
     });
-    console.log('localStorage.getItem(',localStorage.getItem('user_email'));
+    console.log('localStorage.getItem(', localStorage.getItem('user_email'));
     if (localStorage.getItem('user_email') == null) {
       router.navigate(['/sign-in-user']);
       return;
     }
     this.fetchTodos();
   }
-  
+
   private fetchTodos() {
     this.http.get<TodoItem[] | null>(this.baseUrl + 'todos').subscribe({
       next: (success_result) => {
@@ -50,7 +50,7 @@ export class TodosComponent {
 
   public addToDo(): void {
     console.warn('New to do added', this.addTodoForm?.value);
-    const token =  localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     this.http.post<TodoItem>(this.baseUrl + 'todos', { name: this.addTodoForm?.value.name!, isComplete: false }).subscribe(toDoItem => {
       this.todos.push(toDoItem);
       this.addTodoForm?.reset();
@@ -60,7 +60,7 @@ export class TodosComponent {
   public editTodo(id: number): void {
     console.warn('Deleting', id !== this.todoToEdit?.id ? 'correct' : 'wrong');
     const editTodoFormValues = this.editTodoForm.value;
-    console.warn('edit todo ',editTodoFormValues);
+    console.warn('edit todo ', editTodoFormValues);
     const newTodoItem: TodoItem = { name: editTodoFormValues.editing_name!, isComplete: editTodoFormValues.isComplete!, id: id };
     this.http.put(this.baseUrl + 'todos/' + id, newTodoItem).subscribe(updatedToDoItem => {
       const index = this.todos.findIndex(todoItem => todoItem.id === id);
@@ -68,10 +68,10 @@ export class TodosComponent {
       this.todoToEdit = null;
     });
   }
-  
+
   public updateTodoForEdit(todoItem: TodoItem): void {
     console.warn('todo for editing', todoItem);
-    this.todoToEdit = {name: todoItem.name, id: todoItem.id, isComplete: todoItem.isComplete};
+    this.todoToEdit = { name: todoItem.name, id: todoItem.id, isComplete: todoItem.isComplete };
   }
 
   public deleteTodo(id: number): void {

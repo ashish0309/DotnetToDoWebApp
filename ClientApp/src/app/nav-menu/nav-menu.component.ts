@@ -16,8 +16,8 @@ export class NavMenuComponent {
     this.isExpanded = !this.isExpanded;
   }
 
- canShowSignInTabs () {
-    const email =  localStorage.getItem("user_email");
+  canShowSignInTabs() {
+    const email = localStorage.getItem("user_email");
     return email != null;
   }
 }

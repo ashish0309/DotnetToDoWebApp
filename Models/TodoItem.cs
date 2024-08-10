@@ -10,8 +10,8 @@ public class TodoItem
   public string? Name { get; set; }
   public bool IsComplete { get; set; }
 
- [ForeignKey("TodoUser")]
+  [ForeignKey("TodoUser")]
   public string? TodoUserId { get; set; }
 
- public virtual TodoUser? TodoUser { get; set; }
+  public virtual TodoUser? TodoUser { get; set; }
 }

@@ -24,7 +24,7 @@ const routes: Routes = [
     NavMenuComponent,
     ProfileComponent
   ],
-  imports: [  
+  imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

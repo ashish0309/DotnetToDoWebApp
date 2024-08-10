@@ -32,7 +32,7 @@ export class SignInUserComponent {
     this.router.navigate(['/sign-up-user']);
   }
 
-  public static signInPostRequest(httpClient: HttpClient, baseURL: string,  loginRequest: LoginRequest, router: Router): void {
+  public static signInPostRequest(httpClient: HttpClient, baseURL: string, loginRequest: LoginRequest, router: Router): void {
     httpClient.post<SignedInUserResponse>(baseURL + 'account/signin', loginRequest, {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     }).subscribe({
@@ -51,9 +51,9 @@ export class SignInUserComponent {
   }
 
   private static getHeader() {
-    const token =  localStorage.getItem("token");
-    const authHeader =  new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return {headers: authHeader};
+    const token = localStorage.getItem("token");
+    const authHeader = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return { headers: authHeader };
   }
 }
 

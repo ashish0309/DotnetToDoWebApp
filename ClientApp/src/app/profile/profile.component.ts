@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ProfileComponent {
 
   getUserEmail(): string | null {
-    const email =  localStorage.getItem("user_email");
+    const email = localStorage.getItem("user_email");
     return email
   }
 
@@ -19,13 +19,13 @@ export class ProfileComponent {
   }
 
   public signOutUser(): void {
-    const token =  localStorage.getItem("token");
-    console.log('logout token',token);
+    const token = localStorage.getItem("token");
+    console.log('logout token', token);
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json',
     //   'Authorization': `Bearer ${token}`
     // });
-   //const authHeader =  new HttpHeaders().set('Authorization', `Bearer ${token}`, 'Content-Type': 'application/json');
+    //const authHeader =  new HttpHeaders().set('Authorization', `Bearer ${token}`, 'Content-Type': 'application/json');
     this.http.post<any>(this.baseUrl + 'account/logout', null).subscribe({
       error: (httpError: HttpErrorResponse) => {
         // any API error handling logic goes here (e.g. for http codes 4xx and 5xx)

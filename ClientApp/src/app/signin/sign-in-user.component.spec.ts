@@ -8,9 +8,9 @@ describe('SignInUserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignInUserComponent ]
+      declarations: [SignInUserComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SignInUserComponent);
     component = fixture.componentInstance;

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using TodoApp.DBContexts;
 using TodoApp.Models;
 using TodoApp.Utils;
-using ToDoApp.Models;
 
 namespace ToDoApp.Controllers;
 
@@ -23,20 +22,19 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
     {
         var todoItems = await _context.TodoItems.ToListAsync();
         Console.WriteLine("fetched todoitems {0}", todoItems);
-        return Ok(todoItems);
+        return todoItems;
     }
 
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<TodoItem>> Post(TodoItem todoItem)
     {
-        Console.WriteLine("Adding items: {0}",_userProvider.GetUserId());
+        Console.WriteLine("Adding items: {0}", _userProvider.GetUserId());
         todoItem.TodoUserId = _userProvider.GetUserId();
         _context.TodoItems.Add(todoItem);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(Get), new { id = todoItem.Id }, todoItem);
     }
-
 
     [HttpDelete("{id}")]
     [Authorize]
@@ -57,8 +55,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         Console.WriteLine(todoItem);
         _context.TodoItems.Remove(todoItem);
         await _context.SaveChangesAsync();
-
-        return NoContent();
+        return Ok();
     }
 
     [HttpPut("{id}")]
@@ -71,6 +68,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         }
         try
         {
+            todoItem.TodoUserId = _userProvider.GetUserId();
             _context.Entry(todoItem).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -79,7 +77,6 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
 
             throw;
         }
-
         return NoContent();
     }
 }

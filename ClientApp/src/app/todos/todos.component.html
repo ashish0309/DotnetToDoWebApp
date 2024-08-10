@@ -1,48 +1,47 @@
 <div class="container">
-    <div *ngIf="todoToEdit == null">
-        <form [formGroup]="addTodoForm" (ngSubmit)="addToDo()">
-            <div class="mb-3">
-                <input class="form-control" id="name" type="text" formControlName="name"
-                    placeholder="Type your new to do">
-            </div>
-            <button class="btn btn-dark" type="submit">Add</button>
-        </form>
-    </div>
-    <div *ngIf="todoToEdit !== null" >
-        <form [formGroup]="editTodoForm" (ngSubmit)="editTodo(todoToEdit.id)">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="todoToEdit.isComplete" id="isComplete"
-              formControlName="isComplete">
-            <label class="form-check-label" for="flexCheckDefault">
-              Is Complete
-            </label>
-          </div>
-    
-          <input class="form-control mb-3" id="editing_name" type="text" formControlName="editing_name" placeholder="New to do"
-            [(ngModel)]="todoToEdit.name">
-          <button class="btn btn-dark" type="submit">Save Changes</button>
-        </form>
+  <div *ngIf="todoToEdit == null">
+    <form [formGroup]="addTodoForm" (ngSubmit)="addToDo()">
+      <div class="mb-3">
+        <input class="form-control" id="name" type="text" formControlName="name" placeholder="Type your new to do">
       </div>
-    <div class="mt-5">
-        <p *ngIf="!todos?.length"><em>No todos created yet, please add some to see them below.</em></p>
-        <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="todos.length">
-            <thead>
-                <tr>
-                    <th>My To do`s:</th>
-                    <th>Is Complete</th>
-                </tr>
-            </thead>
+      <button class="btn btn-dark" type="submit">Add</button>
+    </form>
+  </div>
+  <div *ngIf="todoToEdit !== null">
+    <form [formGroup]="editTodoForm" (ngSubmit)="editTodo(todoToEdit.id)">
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="todoToEdit.isComplete" id="isComplete"
+          formControlName="isComplete">
+        <label class="form-check-label" for="flexCheckDefault">
+          Is Complete
+        </label>
+      </div>
 
-            <tbody class="table-group-divider">
-                <tr *ngFor="let todo of todos">
-                    <td>{{ todo.name }}</td>
-                    <td>{{ todo.isComplete ? '✅' : ''}}</td>
-                    <td>
-                        <button class="btn btn-dark mx-2" type="submit" (click)="deleteTodo(todo.id)">Delete</button>
-                        <button class="btn btn-dark" type="submit" (click)="updateTodoForEdit(todo)">Edit</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+      <input class="form-control mb-3" id="editing_name" type="text" formControlName="editing_name"
+        placeholder="New to do" [(ngModel)]="todoToEdit.name">
+      <button class="btn btn-dark" type="submit">Save Changes</button>
+    </form>
+  </div>
+  <div class="mt-5">
+    <p *ngIf="!todos?.length"><em>No todos created yet, please add some to see them below.</em></p>
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="todos.length">
+      <thead>
+        <tr>
+          <th>My To do`s:</th>
+          <th>Is Complete</th>
+        </tr>
+      </thead>
+
+      <tbody class="table-group-divider">
+        <tr *ngFor="let todo of todos">
+          <td>{{ todo.name }}</td>
+          <td>{{ todo.isComplete ? '✅' : ''}}</td>
+          <td>
+            <button class="btn btn-dark mx-2" type="submit" (click)="deleteTodo(todo.id)">Delete</button>
+            <button class="btn btn-dark" type="submit" (click)="updateTodoForEdit(todo)">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -21,8 +21,8 @@ export class SignUpUserComponent {
 
   public registerUser(): void {
     const formValues = this.registerUserForm.value;
-    const todoUser: TodoUser = {username: formValues.email!, email: formValues.email!, phonenumber: "+443443343343"};
-    const loginRequest: RegisterUser = {user: todoUser, password: formValues.password!, confirmpassword: formValues.password!};
+    const todoUser: TodoUser = { username: formValues.email!, email: formValues.email!, phonenumber: "+443443343343" };
+    const loginRequest: RegisterUser = { user: todoUser, password: formValues.password!, confirmpassword: formValues.password! };
     console.log(loginRequest);
     this.http.post<RegisteredUserResponse>(this.baseUrl + 'account/signup', loginRequest).subscribe({
       error: (httpError: HttpErrorResponse) => {
