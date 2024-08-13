@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.DBContexts;
 using TodoApp.Models;
@@ -16,6 +17,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
     private readonly TodoContext _context = context;
     private readonly IUserProvider _userProvider = userProvider;
 
+    [EnableRateLimiting("fixed")]
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<IEnumerable<TodoItem>>> Get()
@@ -25,6 +27,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         return todoItems;
     }
 
+    [EnableRateLimiting("fixed")]
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<TodoItem>> Post(TodoItem todoItem)
@@ -36,6 +39,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         return CreatedAtAction(nameof(Get), new { id = todoItem.Id }, todoItem);
     }
 
+    [EnableRateLimiting("fixed")]
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<IActionResult> Delete(long id)
@@ -58,6 +62,7 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         return Ok();
     }
 
+    [EnableRateLimiting("fixed")]
     [HttpPut("{id}")]
     [Authorize]
     public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)

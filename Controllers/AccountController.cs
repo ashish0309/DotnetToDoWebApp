@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using TodoApp.Models;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace angular_app_todo.Controllers;
 
@@ -19,9 +20,11 @@ public class AccountController(
     private readonly SignInManager<TodoUser> _signInManager = signInManager;
     private readonly ILogger<AccountController> _logger = logger;
 
+    [EnableRateLimiting("fixed")]
     [HttpPost("signup")]
     public async Task<ActionResult> RegisterUser(UserRegistration userRegistration)
     {
+        var errorMessage = "Invalid registrationg details, either email id or/and password is not appropriate";
         try
         {
             var result = await _userManager.CreateAsync(userRegistration.User!, userRegistration.Password!);
@@ -38,12 +41,13 @@ public class AccountController(
         }
         catch (Exception ex)
         {
-            var errorMessage = "Invalid registrationg details " + ex.ToString();
-            return BadRequest(errorMessage);
+            var exErrorMessage = errorMessage + " " + ex.ToString();
+            return BadRequest(exErrorMessage);
         }
-        return BadRequest("Invalid registrationg details");
+        return BadRequest(errorMessage);
     }
 
+    [EnableRateLimiting("fixed")]
     [HttpPost("signin")]
     public async Task<ActionResult> SignIn(LoginRequest loginRequest)
     {
@@ -56,7 +60,7 @@ public class AccountController(
         {
             return Ok(new { email = loginRequest.Email! });
         }
-        return BadRequest("Invalid login details");
+        return Unauthorized("Invalid login details");
     }
 
     [HttpPost("logout")]

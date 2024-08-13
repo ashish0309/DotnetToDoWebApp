@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { TodosComponent } from './todos/todos.component'; // Import your component here
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpUserComponent } from './signup/sign-up-user.component';
 import { SignInUserComponent } from './signin/sign-in-user.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ErrorBannerComponent } from './error/error-banner-component';
 
 const routes: Routes = [
   { path: '', component: TodosComponent }, // Default route
@@ -22,7 +23,8 @@ const routes: Routes = [
     SignUpUserComponent,
     SignInUserComponent,
     NavMenuComponent,
-    ProfileComponent
+    ProfileComponent,
+    ErrorBannerComponent
   ],
   imports: [
     BrowserModule,

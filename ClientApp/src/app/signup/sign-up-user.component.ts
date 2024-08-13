@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ErrorService } from '../error/error-service';
 
 @Component({
   selector: 'app-sign-up-user',
@@ -12,7 +13,8 @@ export class SignUpUserComponent {
 
   public registerUserForm: FormGroup;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder,
+    private router: Router, private errorService: ErrorService) {
     this.registerUserForm = this.formBuilder.group({
       email: '',
       password: '',
@@ -29,7 +31,7 @@ export class SignUpUserComponent {
         // any API error handling logic goes here (e.g. for http codes 4xx and 5xx)
         const errorValue: any | null = httpError.error;
         const errorCode: number = httpError.status;
-        console.error(`Endpoint returned error ${errorValue} with status code ${errorCode}`)
+        this.errorService.showError(`Error ${httpError.status}: ${httpError.statusText}: ${httpError.error}`);
       },
       next: (todoUser: RegisteredUserResponse) => {
         console.log("login successful", todoUser.email);

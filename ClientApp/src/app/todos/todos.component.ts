@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Observer } from 'rxjs';
+import { ErrorService } from '../error/error-service';
 
 @Component({
   selector: 'app-todos',
@@ -16,7 +17,8 @@ export class TodosComponent {
   public addTodoForm: FormGroup;
   public editTodoForm: FormGroup;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private formBuilder: FormBuilder, private router: Router,
+    private errorService: ErrorService) {
     this.addTodoForm = this.formBuilder.group({
       name: '',
       isComplete: false,
@@ -40,8 +42,12 @@ export class TodosComponent {
         this.todos = success_result ?? [];
       }, error: (error) => {
         console.error("error message", error);
-        localStorage.clear();
-        this.router.navigate(['/sign-in-user']);
+        if (error.statusCode == 401) {
+          console.log('clearing local storage');
+          localStorage.clear();
+          this.router.navigate(['/sign-in-user']);
+        }
+        this.errorService.showError(`Error ${error.status}: ${error.statusText}`);
       }, complete: () => {
         console.log('completed api call');
       }
@@ -51,10 +57,15 @@ export class TodosComponent {
   public addToDo(): void {
     console.warn('New to do added', this.addTodoForm?.value);
     const token = localStorage.getItem("token");
-    this.http.post<TodoItem>(this.baseUrl + 'todos', { name: this.addTodoForm?.value.name!, isComplete: false }).subscribe(toDoItem => {
-      this.todos.push(toDoItem);
-      this.addTodoForm?.reset();
-    });
+    this.http.post<TodoItem>(this.baseUrl + 'todos', { name: this.addTodoForm?.value.name!, isComplete: false }).
+      subscribe({
+        next: (toDoItem) => {
+          this.todos.push(toDoItem);
+          this.addTodoForm?.reset();
+        }, error: (error) => {
+          this.errorService.showError(`Error ${error.status}: ${error.statusText}`);
+        }
+      });
   }
 
   public editTodo(id: number): void {
@@ -62,10 +73,14 @@ export class TodosComponent {
     const editTodoFormValues = this.editTodoForm.value;
     console.warn('edit todo ', editTodoFormValues);
     const newTodoItem: TodoItem = { name: editTodoFormValues.editing_name!, isComplete: editTodoFormValues.isComplete!, id: id };
-    this.http.put(this.baseUrl + 'todos/' + id, newTodoItem).subscribe(updatedToDoItem => {
-      const index = this.todos.findIndex(todoItem => todoItem.id === id);
-      this.todos.splice(index, 1, newTodoItem);
-      this.todoToEdit = null;
+    this.http.put(this.baseUrl + 'todos/' + id, newTodoItem).subscribe({
+      next: (updatedToDoItem) => {
+        const index = this.todos.findIndex(todoItem => todoItem.id === id);
+        this.todos.splice(index, 1, newTodoItem);
+        this.todoToEdit = null;
+      }, error: (error) => {
+        this.errorService.showError(`Error ${error.status}: ${error.statusText}`);
+      }
     });
   }
 
@@ -76,13 +91,16 @@ export class TodosComponent {
 
   public deleteTodo(id: number): void {
     console.warn('Deleting', id);
-    this.http.delete(this.baseUrl + 'todos/' + id).pipe(
-      response => {
-        console.log({ "res": response.forEach(value => { console.log({ 'vale': value }) }) });
-        let pastTodos = this.todos;
-        pastTodos = pastTodos.filter(todo => todo.id != id);
-        this.todos = pastTodos;
-        return response;
+    this.http.delete(this.baseUrl + 'todos/' + id).subscribe(
+      {
+        next: (response) => {
+          let pastTodos = this.todos;
+          pastTodos = pastTodos.filter(todo => todo.id != id);
+          this.todos = pastTodos;
+          return response;
+        }, error: (error) => {
+          this.errorService.showError(`Error ${error.status}: ${error.statusText}`);
+        }
       });
   }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/brainnumber/ToDoApp/ToDoApp.csproj": {}
+    "/Users/brainnumber/DotnetToDoWebApp/ToDoApp.csproj": {}
   },
   "projects": {
-    "/Users/brainnumber/ToDoApp/ToDoApp.csproj": {
+    "/Users/brainnumber/DotnetToDoWebApp/ToDoApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/brainnumber/ToDoApp/ToDoApp.csproj",
+        "projectUniqueName": "/Users/brainnumber/DotnetToDoWebApp/ToDoApp.csproj",
         "projectName": "ToDoApp",
-        "projectPath": "/Users/brainnumber/ToDoApp/ToDoApp.csproj",
+        "projectPath": "/Users/brainnumber/DotnetToDoWebApp/ToDoApp.csproj",
         "packagesPath": "/Users/brainnumber/.nuget/packages/",
-        "outputPath": "/Users/brainnumber/ToDoApp/obj/",
+        "outputPath": "/Users/brainnumber/DotnetToDoWebApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/brainnumber/.nuget/NuGet/NuGet.Config"

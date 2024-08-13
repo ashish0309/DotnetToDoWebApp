@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HORaEx02Q30AzoLxQVpqW+ZY9dfGAuZwXQryOOciZaE=",
+  "Hash": "nLkavCcrDFpjpcMBCvbw9We/whjTd9kkLVfP4ZFP+1E=",
   "Source": "ToDoApp",
   "BasePath": "_content/ToDoApp",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "ToDoApp/wwwroot",
       "Source": "ToDoApp",
-      "ContentRoot": "/Users/brainnumber/ToDoApp/wwwroot/",
+      "ContentRoot": "/Users/brainnumber/DotnetToDoWebApp/wwwroot/",
       "BasePath": "_content/ToDoApp",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/brainnumber/ToDoApp/wwwroot/favicon.ico",
+      "Identity": "/Users/brainnumber/DotnetToDoWebApp/wwwroot/favicon.ico",
       "SourceId": "ToDoApp",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/brainnumber/ToDoApp/wwwroot/",
+      "ContentRoot": "/Users/brainnumber/DotnetToDoWebApp/wwwroot/",
       "BasePath": "_content/ToDoApp",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
