@@ -73,13 +73,13 @@ public class TodosController(TodoContext context, IUserProvider userProvider) : 
         }
         try
         {
-            todoItem.TodoUserId = _userProvider.GetUserId();
-            _context.Entry(todoItem).State = EntityState.Modified;
+            var todoItemRecord = await _context.TodoItems.FindAsync(id);
+            todoItemRecord!.IsComplete = todoItem.IsComplete;
+            todoItemRecord.Name = todoItem.Name;
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-
             throw;
         }
         return NoContent();
